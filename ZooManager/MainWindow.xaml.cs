@@ -168,7 +168,7 @@ namespace ZooManager
         {
             try
             {
-                string query = "SELECT Name FROM Animal WHERE Id = @AnimalId";
+                string query = "SELECT NAME FROM Animal WHERE Id = @AnimalId";
 
                 SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
 
@@ -193,11 +193,7 @@ namespace ZooManager
             }
         }
 
-        private void listAssociatedAnimals_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
+        
         private void listZoos_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ShowAssociatedAnimals();
@@ -213,21 +209,21 @@ namespace ZooManager
         {
             try
             {
-                string query = "INSERT INTO ZooAnimal VALUES (@zooId, @animalId)";
+                string query = "INSERT INTO ZooAnimal VALUES (@ZooId, @AnimalId)";
 
                 SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
 
                 sqlConnection.Open(); // open connection
 
 
-                sqlCommand.Parameters.AddWithValue("@zooId", listZoos.SelectedValue);
-                sqlCommand.Parameters.AddWithValue("@animalId", listAnimals.SelectedValue);
+                sqlCommand.Parameters.AddWithValue("@ZooId", listZoos.SelectedValue);
+                sqlCommand.Parameters.AddWithValue("@AnimalId", listAnimals.SelectedValue);
 
                 sqlCommand.ExecuteScalar(); // 
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"AddZooBtn Error: {ex.Message}");
+                MessageBox.Show($"AddAnimalToZooBtn Error: {ex.Message}");
             }
             finally
             {
@@ -242,13 +238,13 @@ namespace ZooManager
         {
             try
             {
-                string query = "DELETE from Animal WHERE Id = @animalId";
+                string query = "DELETE from Animal WHERE Id = @AnimalId";
 
                 SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
 
                 sqlConnection.Open(); // open connection
 
-                sqlCommand.Parameters.AddWithValue("@animalId", listAnimals.SelectedValue);
+                sqlCommand.Parameters.AddWithValue("@AnimalId", listAnimals.SelectedValue);
 
                 sqlCommand.ExecuteScalar(); // 
 
@@ -270,13 +266,13 @@ namespace ZooManager
         {
             try
             {
-                string query = "DELETE from Zoo WHERE Id = @zooId";
+                string query = "DELETE from Zoo WHERE Id = @ZooId";
 
                 SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
 
                 sqlConnection.Open(); // open connection
 
-                sqlCommand.Parameters.AddWithValue("@zooId", listZoos.SelectedValue);
+                sqlCommand.Parameters.AddWithValue("@ZooId", listZoos.SelectedValue);
 
                 sqlCommand.ExecuteScalar(); // 
 
@@ -351,12 +347,60 @@ namespace ZooManager
 
         private void UpdateZooBtn(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                string query = "UPDATE Zoo SET Location = @Location WHERE Id = @ZooId";
 
+                SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
+
+                sqlConnection.Open(); // open connection
+
+
+                sqlCommand.Parameters.AddWithValue("@zooId", listZoos.SelectedValue);
+                sqlCommand.Parameters.AddWithValue("@Location", textBoxEditName.Text);
+
+                sqlCommand.ExecuteScalar(); // 
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"UpdateZooBtn Error: {ex.Message}");
+            }
+            finally
+            {
+                sqlConnection.Close(); // close connection
+
+                ShowZoos();
+                textBoxEditName.Text = "";
+            }
         }
 
         private void UpdateAnimalBtn(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                string query = "UPDATE Animal SET Name = @Name WHERE Id = @AnimalId";
 
+                SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
+
+                sqlConnection.Open(); // open connection
+
+
+                sqlCommand.Parameters.AddWithValue("@AnimalId", listAnimals.SelectedValue);
+                sqlCommand.Parameters.AddWithValue("@Name", textBoxEditName.Text);
+
+                sqlCommand.ExecuteScalar(); // 
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"UpdateZooBtn Error: {ex.Message}");
+            }
+            finally
+            {
+                sqlConnection.Close(); // close connection
+
+                ShowAnimals();
+                textBoxEditName.Text = "";
+            }
         }
 
         private void RemoveAnimalBtn(object sender, RoutedEventArgs e)
