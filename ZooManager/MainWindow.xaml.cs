@@ -151,7 +151,7 @@ namespace ZooManager
 
         private void AddAnimalToZooBtn(object sender, RoutedEventArgs e)
         {
-
+            MessageBox.Show("hEllo");
         }
 
         private void DeleteAnimalBtn(object sender, RoutedEventArgs e)
@@ -161,7 +161,57 @@ namespace ZooManager
 
         private void DeleteZooBtn(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                string query = "DELETE from Zoo WHERE Id = @zooId";
 
+                SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
+
+                sqlConnection.Open(); // open connection
+
+                sqlCommand.Parameters.AddWithValue("@zooId", listZoos.SelectedValue);
+
+                sqlCommand.ExecuteScalar(); // 
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"DeleteZooBtn Error: {ex.Message}");
+            }
+            finally
+            {
+                sqlConnection.Close(); // close connection
+
+                ShowZoos();
+            }
+        }
+
+        private void AddZooBtn(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string query = "INSERT INTO Zoo VALUES (@Location)";
+
+                SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
+
+                sqlConnection.Open(); // open connection
+
+                sqlCommand.Parameters.AddWithValue("@Location", textBoxEditName.Text);
+
+                sqlCommand.ExecuteScalar(); // 
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"AddZooBtn Error: {ex.Message}");
+            }
+            finally
+            {
+                sqlConnection.Close(); // close connection
+
+                ShowZoos();
+
+                textBoxEditName.Text = ""; // clear text box
+            }
         }
     }
 }
