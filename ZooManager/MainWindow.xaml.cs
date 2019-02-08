@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration; // configuration manager
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +24,8 @@ namespace ZooManager
         public MainWindow()
         {
             InitializeComponent();
+            // Project.Properties.Settings.ConnectionString
+            string connectionString = ConfigurationManager.ConnectionStrings["ZooManager.Properties.Settings.PremSqlDBConnectionString"].ConnectionString;
         }
     }
 }
