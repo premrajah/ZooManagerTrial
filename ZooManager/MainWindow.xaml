@@ -15,12 +15,12 @@
         <ListBox x:Name="listAnimals" HorizontalAlignment="Left" Height="301" Margin="444,36,0,0" VerticalAlignment="Top" Width="193" SelectionChanged="listAnimals_SelectionChanged"/>
         <Button Content="Delete Animal" HorizontalAlignment="Left" Height="21" Margin="444,342,0,0" VerticalAlignment="Top" Width="193" Click="DeleteAnimalBtn"/>
         <Button Content="Delete Zoo" HorizontalAlignment="Left" Height="21" Margin="10,261,0,0" VerticalAlignment="Top" Width="193" Click="DeleteZooBtn"/>
-        <Button Content="Remove Animal" HorizontalAlignment="Left" Height="21" Margin="227,261,0,0" VerticalAlignment="Top" Width="193"/>
+        <Button Content="Remove Animal" HorizontalAlignment="Left" Height="21" Margin="227,261,0,0" VerticalAlignment="Top" Width="193" Click="RemoveAnimalBtn"/>
         <TextBox Name="textBoxEditName" HorizontalAlignment="Left" Height="24" Margin="10,287,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="410"/>
         <Button Content="Add Zoo" HorizontalAlignment="Left" Height="21" Margin="10,316,0,0" VerticalAlignment="Top" Width="193" Click="AddZooBtn"/>
-        <Button Content="Add Amimal to Zoo" HorizontalAlignment="Left" Height="21" Margin="227,316,0,0" VerticalAlignment="Top" Width="193"/>
-        <Button Content="Update Zoo" HorizontalAlignment="Left" Height="21" Margin="10,342,0,0" VerticalAlignment="Top" Width="193"/>
-        <Button Content="Update Animal" HorizontalAlignment="Left" Height="21" Margin="227,342,0,0" VerticalAlignment="Top" Width="193"/>
+        <Button Content="Add Amimal" HorizontalAlignment="Left" Height="21" Margin="227,316,0,0" VerticalAlignment="Top" Width="193" Click="AddAnimalBtn"/>
+        <Button Content="Update Zoo" HorizontalAlignment="Left" Height="21" Margin="10,342,0,0" VerticalAlignment="Top" Width="193" Click="UpdateZooBtn"/>
+        <Button Content="Update Animal" HorizontalAlignment="Left" Height="21" Margin="227,342,0,0" VerticalAlignment="Top" Width="193" Click="UpdateAnimalBtn"/>
 
     </Grid>
 </Window>
