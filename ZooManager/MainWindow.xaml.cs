@@ -34,7 +34,8 @@ namespace ZooManager
             sqlConnection = new SqlConnection(connectionString);
 
 
-            ShowZoos(); 
+            ShowZoos();
+            ShowAnimals();
         }
 
         /// <summary>
@@ -70,6 +71,36 @@ namespace ZooManager
             }
         }
 
+        private void ShowAnimals()
+        {
+            try
+            {
+                string query = "SELECT * FROM Animal";
+
+                // can be imagined like a interface to make tables usable by c#-objects
+                SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(query, sqlConnection);
+
+
+                using (sqlDataAdapter)
+                {
+                    DataTable animalTable = new DataTable();
+
+                    sqlDataAdapter.Fill(animalTable);
+
+                    // Which item should be shown in the list box
+                    listAnimals.DisplayMemberPath = "Name";
+                    // which which item from the list cox is selected
+                    listAnimals.SelectedValuePath = "Id";
+                    // reference to the Data the listbox should populate
+                    listAnimals.ItemsSource = animalTable.DefaultView;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error: (ShowZoos) {ex.Message}");
+            }
+        }
+
         private void ShowAssociatedAnimals()
         {
             try
@@ -85,16 +116,16 @@ namespace ZooManager
                 {
                     sqlCommand.Parameters.AddWithValue("@zooId", listZoos.SelectedValue);
 
-                    DataTable animalTable = new DataTable();
+                    DataTable zooAnimalTable = new DataTable();
 
-                    sqlDataAdapter.Fill(animalTable);
+                    sqlDataAdapter.Fill(zooAnimalTable);
 
                     // Which item should be shown in the list box
                     listAssociatedAnimals.DisplayMemberPath = "Name";
                     // which which item from the list cox is selected
                     listAssociatedAnimals.SelectedValuePath = "Id";
                     // reference to the Data the listbox should populate
-                    listAssociatedAnimals.ItemsSource = animalTable.DefaultView;
+                    listAssociatedAnimals.ItemsSource = zooAnimalTable.DefaultView;
                 }
             }
             catch (Exception ex)
@@ -111,6 +142,26 @@ namespace ZooManager
         private void listZoos_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ShowAssociatedAnimals();
+        }
+
+        private void listAnimals_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void AddAnimalToZooBtn(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void DeleteAnimalBtn(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void DeleteZooBtn(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
