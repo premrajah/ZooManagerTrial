@@ -105,7 +105,7 @@ namespace ZooManager
         {
             try
             {
-                string query = "SELECT * FROM Animal a INNER JOIN ZooAnimal za ON a.Id = za.AnimalId WHERE za.ZooId = @zooId";
+                string query = "SELECT * FROM Animal a INNER JOIN ZooAnimal za ON a.Id = za.AnimalId WHERE za.ZooId = @ZooId";
 
                 SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
 
@@ -114,7 +114,7 @@ namespace ZooManager
 
                 using (sqlDataAdapter)
                 {
-                    sqlCommand.Parameters.AddWithValue("@zooId", listZoos.SelectedValue);
+                    sqlCommand.Parameters.AddWithValue("@ZooId", listZoos.SelectedValue);
 
                     DataTable zooAnimalTable = new DataTable();
 
@@ -130,7 +130,66 @@ namespace ZooManager
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"ShowAssociatedAnimals Error:  {ex.Message}");
+                //MessageBox.Show($"ShowAssociatedAnimals Error:  {ex.Message}");
+            }
+        }
+
+        private void ShowSelectedZooInTextBox()
+        {
+            try
+            {
+                string query = "SELECT Location FROM Zoo WHERE Id = @ZooId";
+
+                SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
+
+                // can be imagined like a interface to make tables usable by c#-objects
+                SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
+
+                using (sqlDataAdapter)
+                {
+                    sqlCommand.Parameters.AddWithValue("@ZooId", listZoos.SelectedValue);
+
+                    DataTable zooDataTable = new DataTable();
+
+                    sqlDataAdapter.Fill(zooDataTable);
+
+
+                    textBoxEditName.Text = zooDataTable.Rows[0]["Location"].ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"ShowSelectedZooInTextBox Error:  {ex.Message}");
+            }
+        }
+
+
+        private void ShowSelectedAnimalsInTextBox()
+        {
+            try
+            {
+                string query = "SELECT Name FROM Animal WHERE Id = @AnimalId";
+
+                SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
+
+                // can be imagined like a interface to make tables usable by c#-objects
+                SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
+
+                using (sqlDataAdapter)
+                {
+                    sqlCommand.Parameters.AddWithValue("@AnimalId", listAnimals.SelectedValue);
+
+                    DataTable animalDataTable = new DataTable();
+
+                    sqlDataAdapter.Fill(animalDataTable);
+
+
+                    textBoxEditName.Text = animalDataTable.Rows[0]["Name"].ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"ShowSelectedAnimalsInTextBox Error:  {ex.Message}");
             }
         }
 
@@ -142,11 +201,12 @@ namespace ZooManager
         private void listZoos_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ShowAssociatedAnimals();
+            ShowSelectedZooInTextBox();
         }
 
         private void listAnimals_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            ShowSelectedAnimalsInTextBox();
         }
 
         private void AddAnimalToZooBtn(object sender, RoutedEventArgs e)
